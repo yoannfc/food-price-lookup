@@ -43,7 +43,7 @@ const FoodCard = ({ name, prices, selectedDistributor, category, image }: FoodCa
               <div key={store} className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">{store}</span>
                 <span className={`text-lg font-semibold ${price === getBestPrice() ? 'text-green-600' : ''}`}>
-                  ${price.toFixed(2)}
+                  {price.toFixed(2)} €
                 </span>
               </div>
             ))}

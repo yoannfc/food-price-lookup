@@ -3,53 +3,53 @@ import FoodCard from '../components/FoodCard';
 import SearchBar from '../components/SearchBar';
 import { Button } from "@/components/ui/button";
 
-const CATEGORIES = ['All', 'Food & Beverages', 'Household', 'Personal Care', 'Electronics', 'Pet Supplies'];
+const CATEGORIES = ['All', 'Alimentation', 'Maison', 'Hygiène', 'Électronique', 'Animalerie'];
 
-const DISTRIBUTORS = ['All', 'Walmart', 'Target', 'Costco', 'Whole Foods', 'Kroger'];
+const DISTRIBUTORS = ['All', 'Carrefour', 'E.Leclerc', 'Auchan', 'Intermarché', 'Casino'];
 
 const PRODUCTS = [
   {
-    name: 'Paper Towels (6 rolls)',
+    name: 'Essuie-tout (6 rouleaux)',
     price: {
-      'Walmart': 5.99,
-      'Target': 6.49,
-      'Costco': 4.99,
+      'Carrefour': 4.99,
+      'E.Leclerc': 4.49,
+      'Auchan': 4.79,
     },
-    category: 'Household',
+    category: 'Maison',
     image: 'https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=500&q=80',
     barcode: '0123456789',
   },
   {
-    name: 'Milk (1 Gallon)',
+    name: 'Lait (1 Litre)',
     price: {
-      'Walmart': 3.49,
-      'Target': 3.99,
-      'Whole Foods': 4.49,
-      'Kroger': 3.79,
+      'Carrefour': 1.15,
+      'E.Leclerc': 0.99,
+      'Intermarché': 1.09,
+      'Casino': 1.19,
     },
-    category: 'Food & Beverages',
+    category: 'Alimentation',
     image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&q=80',
     barcode: '1234567890',
   },
   {
-    name: 'Toothpaste',
+    name: 'Dentifrice',
     price: {
-      'Walmart': 2.99,
-      'Target': 3.29,
-      'Kroger': 2.89,
+      'Carrefour': 2.49,
+      'E.Leclerc': 2.29,
+      'Casino': 2.59,
     },
-    category: 'Personal Care',
+    category: 'Hygiène',
     image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80',
     barcode: '2345678901',
   },
   {
-    name: 'Dog Food (30 lbs)',
+    name: 'Croquettes pour chien (10 kg)',
     price: {
-      'Walmart': 24.99,
-      'Target': 26.99,
-      'Costco': 22.99,
+      'Carrefour': 19.99,
+      'E.Leclerc': 18.99,
+      'Auchan': 20.49,
     },
-    category: 'Pet Supplies',
+    category: 'Animalerie',
     image: 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=500&q=80',
     barcode: '3456789012',
   },
@@ -71,7 +71,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-secondary p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-primary">Price Comparison Tracker</h1>
+        <h1 className="text-4xl font-bold text-center mb-8 text-primary">Comparateur de Prix</h1>
         
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
         
