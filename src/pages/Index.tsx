@@ -11,36 +11,42 @@ const FOOD_ITEMS = [
     price: 0.99,
     category: 'Fruits',
     image: 'https://images.unsplash.com/photo-1481349518771-20055b2a7b24?w=500&q=80',
+    barcode: '0123456789',
   },
   {
     name: 'Milk (1 Gallon)',
     price: 3.99,
     category: 'Dairy',
     image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&q=80',
+    barcode: '1234567890',
   },
   {
     name: 'Bread',
     price: 2.49,
     category: 'Grains',
     image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=500&q=80',
+    barcode: '2345678901',
   },
   {
     name: 'Chicken Breast',
     price: 5.99,
     category: 'Meat',
     image: 'https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=500&q=80',
+    barcode: '3456789012',
   },
   {
     name: 'Carrots',
     price: 1.49,
     category: 'Vegetables',
     image: 'https://images.unsplash.com/photo-1447175008436-054170c2e979?w=500&q=80',
+    barcode: '4567890123',
   },
   {
     name: 'Eggs (Dozen)',
     price: 3.29,
     category: 'Dairy',
     image: 'https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500&q=80',
+    barcode: '5678901234',
   },
 ];
 
@@ -49,7 +55,9 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const filteredItems = FOOD_ITEMS.filter(item => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = 
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.barcode.includes(searchTerm);
     const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
