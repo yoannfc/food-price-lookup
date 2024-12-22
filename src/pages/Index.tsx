@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FoodCard from '../components/FoodCard';
 import SearchBar from '../components/SearchBar';
 import { Button } from "@/components/ui/button";
+import { calculateDistance } from '../utils/distance';
+import { toast } from "sonner";
 
 const CATEGORIES = ['All', 'Alimentation', 'Maison', 'Hygiène', 'Électronique', 'Animalerie'];
 
 const DISTRIBUTORS = ['All', 'Carrefour', 'E.Leclerc', 'Auchan', 'Intermarché', 'Casino'];
+
+// Add store locations
+const STORE_LOCATIONS = {
+  'Carrefour': { lat: 48.8566, lon: 2.3522 }, // Paris
+  'E.Leclerc': { lat: 48.8744, lon: 2.3526 },
+  'Auchan': { lat: 48.8606, lon: 2.3376 },
+  'Intermarché': { lat: 48.8649, lon: 2.3800 },
+  'Casino': { lat: 48.8737, lon: 2.2950 }
+};
 
 const PRODUCTS = [
   {
@@ -59,6 +70,35 @@ const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedDistributor, setSelectedDistributor] = useState('All');
+  const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
+  const [sortByDistance, setSortByDistance] = useState(false);
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude
+          });
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          toast.error("Impossible d'obtenir votre position");
+        }
+      );
+    }
+  }, []);
+
+  const getStoreDistance = (storeName: string) => {
+    if (!userLocation || !STORE_LOCATIONS[storeName]) return Infinity;
+    return calculateDistance(
+      userLocation.lat,
+      userLocation.lon,
+      STORE_LOCATIONS[storeName].lat,
+      STORE_LOCATIONS[storeName].lon
+    );
+  };
 
   const filteredItems = PRODUCTS.filter(item => {
     const matchesSearch = 
@@ -67,6 +107,14 @@ const Index = () => {
     const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const sortedItems = sortByDistance
+    ? [...filteredItems].sort((a, b) => {
+        const aDistance = Math.min(...Object.keys(a.price).map(store => getStoreDistance(store)));
+        const bDistance = Math.min(...Object.keys(b.price).map(store => getStoreDistance(store)));
+        return aDistance - bDistance;
+      })
+    : filteredItems;
 
   return (
     <div className="min-h-screen bg-secondary p-6">
@@ -101,10 +149,20 @@ const Index = () => {
               </Button>
             ))}
           </div>
+
+          <div className="flex justify-end">
+            <Button
+              variant={sortByDistance ? "default" : "outline"}
+              onClick={() => setSortByDistance(!sortByDistance)}
+              className="whitespace-nowrap"
+            >
+              {sortByDistance ? "Tri par distance activé" : "Trier par distance"}
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {filteredItems.map((item) => (
+          {sortedItems.map((item) => (
             <FoodCard
               key={item.name}
               name={item.name}
