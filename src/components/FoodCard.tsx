@@ -70,9 +70,6 @@ const FoodCard = ({ name, prices, selectedDistributor, category, image }: FoodCa
                     {price.toFixed(2)} €
                   </span>
                 </div>
-                <span className="text-xs text-gray-500">
-                  {STORE_ADDRESSES[store]}
-                </span>
               </div>
             ))}
           </div>
