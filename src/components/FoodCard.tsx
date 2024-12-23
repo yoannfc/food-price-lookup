@@ -57,20 +57,22 @@ const FoodCard = ({ name, prices, selectedDistributor, category, image }: FoodCa
             {Object.entries(displayPrices).map(([store, price]) => (
               <div key={store} className="flex flex-col gap-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">{store}</span>
+                  <a 
+                    href={getGoogleMapsLink(store)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-blue-600 flex items-center gap-1"
+                  >
+                    {store}
+                    <ExternalLink size={12} />
+                  </a>
                   <span className={`text-lg font-semibold ${price === getBestPrice() ? 'text-green-600' : ''}`}>
                     {price.toFixed(2)} €
                   </span>
                 </div>
-                <a 
-                  href={getGoogleMapsLink(store)} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"
-                >
-                  <ExternalLink size={12} />
+                <span className="text-xs text-gray-500">
                   {STORE_ADDRESSES[store]}
-                </a>
+                </span>
               </div>
             ))}
           </div>
